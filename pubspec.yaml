@@ -1,0 +1,31 @@
+name: impostor_cc
+description: "Jogo do impostor com temas de Ciencia da Computacao"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: ^2.5.6
+  wakelock_plus: ^1.8.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  # Fontes embutidas no app (funcionam offline).
+  # Anybody é variável: largura (wdth) e peso (wght) são ajustados no código.
+  fonts:
+    - family: Anybody
+      fonts:
+        - asset: assets/fonts/Anybody.ttf
+    - family: PermanentMarker
+      fonts:
+        - asset: assets/fonts/PermanentMarker-Regular.ttf
