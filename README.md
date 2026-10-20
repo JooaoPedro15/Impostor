@@ -5,6 +5,8 @@ Ciência da Computação (edição PUC Minas, 40 anos do curso). Feito em Flutte
 publicado como PWA: instala na tela de início do iPhone e do Android, sem loja
 de apps, e funciona offline.
 
+**Jogar:** https://jooaopedro15.github.io/Impostor/
+
 ## Como funciona
 
 1. Escrevam os nomes dos jogadores (mínimo 3).
