@@ -1,0 +1,58 @@
+# A cada push na main: testa, gera a PWA e publica no GitHub Pages.
+name: Deploy no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # permite rodar manualmente pela aba Actions
+
+# Permissões mínimas que o deploy no Pages precisa.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Não deixa dois deploys rodarem ao mesmo tempo.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.47.5
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Testes
+        run: flutter test
+
+      # O site fica em usuario.github.io/<nome-do-repo>/, por isso o base-href.
+      - name: Build da PWA
+        run: flutter build web --release --no-web-resources-cdn --base-href "/${{ github.event.repository.name }}/"
+
+      - name: Service worker
+        run: dart run tool/gerar_service_worker.dart
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
